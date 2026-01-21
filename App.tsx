@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { ConnectionState, Message, CryptoConfig, Theme, Language, EncLevel } from './types';
-import { CryptoUtils } from './services/cryptoUtils';
+import { CryptoUtils } from './cryptoUtils';
 import { translations } from './translations';
 
 const CHUNK_SIZE = 16384;
@@ -157,7 +157,7 @@ const App: React.FC = () => {
           const url = URL.createObjectURL(blob);
           setMessages(prev => [...prev, {
             id: CryptoUtils.generateRandomId(), type: 'received', content: `Shared file: ${meta.name}`, timestamp: Date.now(),
-            file: { name: meta.name, mime: meta.mime, url }
+            file: { name: meta.name, mime: meta.mime, size: meta.size, url }
           }]);
           incomingFileRef.current = { meta: null, buffer: [] };
           setTransferProgress(null);
@@ -249,7 +249,7 @@ const App: React.FC = () => {
       }
     }
     dcRef.current.send(JSON.stringify({ type: 'file-end' }));
-    setMessages(prev => [...prev, { id: CryptoUtils.generateRandomId(), type: 'sent', content: `File: ${file.name}`, timestamp: Date.now(), file: { name: file.name, mime: file.type, url: URL.createObjectURL(file) } }]);
+    setMessages(prev => [...prev, { id: CryptoUtils.generateRandomId(), type: 'sent', content: `File: ${file.name}`, timestamp: Date.now(), file: { name: file.name, mime: file.type, size: file.size, url: URL.createObjectURL(file) } }]);
     setTransferProgress(null);
   }, []);
 
@@ -393,10 +393,10 @@ const App: React.FC = () => {
                 {config.useMic && <p className="text-[10px] text-[var(--text-dim)] font-medium leading-relaxed px-1 animate-in fade-in slide-in-from-top-1">{t.voiceHint}</p>}
               </div>
               <div className="grid grid-cols-2 gap-3 pt-2">
-                <button onClick={async () => { setConnState(ConnectionState.GENERATING); await initRtc(true); }} className={`font-bold py-4 rounded-ultima transition-all text-sm shadow-ultima hover:brightness-110 active:scale-95 ${isHostMode && connState !== ConnectionState.IDLE ? 'bg-[var(--primary)] text-white shadow-lg' : 'bg-transparent border border-[var(--border)] text-[var(--text-main)]'}`}>{t.host}</button>
+                <button onClick={async () => { setConnState(ConnectionState.GENERATING); await initRtc(true); }} className={`font-bold py-4 rounded-ultima transition-all text-sm shadow-ultima hover:brightness-110 active:scale-95 ${isHostMode ? 'bg-[var(--primary)] text-white shadow-lg' : 'bg-transparent border border-[var(--border)] text-[var(--text-main)]'}`}>{t.host}</button>
                 <button onClick={() => { setConnState(ConnectionState.ANSWERING); setLocalSdp(''); setRemoteInput(''); }} className={`font-bold py-4 rounded-ultima transition-all text-sm shadow-ultima hover:brightness-110 active:scale-95 ${isJoinMode ? 'bg-[var(--primary)] text-white shadow-lg' : 'bg-transparent border border-[var(--border)] text-[var(--text-main)]'}`}>{t.join}</button>
               </div>
-              {((isHostMode && connState !== ConnectionState.IDLE) || isJoinMode) && (
+              {((isHostMode) || isJoinMode) && (
                 <div className="space-y-4 pt-5 border-t border-[var(--border)] animate-in slide-in-from-bottom-2 duration-300">
                   {isHostMode && (
                     <>
