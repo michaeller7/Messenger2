@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Secure P2P Chat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            /* Dark Theme - Base */
+            --bg-main: #0b0f19;
+            --bg-accent: #161d2e;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --primary: #3b82f6;
+            --border: #2d3748;
+            --radius: 1rem;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.6);
+        }
+
+        .theme-light {
+            --bg-main: #f1f5f9;
+            --bg-accent: #ffffff;
+            --text-main: #0f172a;
+            --text-dim: #64748b;
+            --primary: #2563eb;
+            --border: #e2e8f0;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .theme-modern {
+            --bg-main: #0f172a;
+            --bg-accent: #1e1b4b;
+            --text-main: #e0e7ff;
+            --text-dim: #a5b4fc;
+            --primary: #6366f1;
+            --border: #312e81;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+            --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.55);
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            transition: background-color 0.2s ease, color 0.2s ease;
+            overscroll-behavior-y: contain;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar { width: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 10px;
+        }
+
+        .modal-blur {
+            backdrop-filter: blur(12px);
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .rounded-ultima {
+            border-radius: var(--radius);
+        }
+        
+        .safe-bottom {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        .shadow-ultima {
+            box-shadow: var(--shadow);
+        }
+
+        .shadow-ultima-lg {
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Typing Dot Animation */
+        @keyframes typingFade {
+            0% { opacity: 0.2; }
+            50% { opacity: 1; }
+            100% { opacity: 0.2; }
+        }
+        .typing-dot {
+            animation: typingFade 1.4s infinite;
+            display: inline-block;
+            margin-left: 1px;
+        }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        input, textarea {
+            font-size: 16px !important;
+        }
+
+        .img-adaptive {
+            max-width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
+            display: block;
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "vite": "https://esm.sh/vite@^7.3.1",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+</body>
+</html>

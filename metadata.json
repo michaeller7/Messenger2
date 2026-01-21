@@ -1,0 +1,8 @@
+{
+  "name": "Secure P2P Chat",
+  "description": "Serverless, end-to-end encrypted peer-to-peer chat with voice support.",
+  "requestFramePermissions": [
+    "microphone",
+    "camera"
+  ]
+}
